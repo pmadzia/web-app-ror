@@ -70,3 +70,5 @@ end
 gem "bcrypt", "~> 3.1"
 
 gem "ransack", "~> 6.0"
+
+gem "activerecord-import", "~> 3.0"
