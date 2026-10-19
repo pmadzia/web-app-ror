@@ -8,22 +8,32 @@
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <%= yield :head %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
 
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
   </head>
-
-  <body>
-    <%= yield %>
-  </body>
+  <body class="bg-light">
+      <nav class="navbar navbar-dark bg-dark mb-4">
+        <div class="container">
+          <span class="navbar-brand mb-0 h1">App</span>
+          <% if current_user&.active? %>
+            <div class="d-flex align-items-center">
+              <span class="navbar-text text-light me-3"><%= current_user.full_name %></span>
+              <%= button_to "Log out", logout_path, method: :delete,
+                            class: "btn btn-outline-light btn-sm" %>
+            </div>
+          <% end %>
+        </div>
+      </nav>
+      <main class="container pb-4">
+        <% flash.each do |type, message| %>
+          <div class="alert alert-<%= type.to_s == 'notice' ? 'success' : 'danger' %>" role="alert">
+            <%= message %>
+          </div>
+        <% end %>
+        <%= yield %>
+      </main>
+    </body>
 </html>

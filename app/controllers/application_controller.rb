@@ -1,7 +1,22 @@
 class ApplicationController < ActionController::Base
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern
+  before_action :require_login
+  helper_method :current_user
 
-  # Changes to the importmap will invalidate the etag for HTML responses
-  stale_when_importmap_changes
+  private
+
+  def current_user
+    return @current_user if defined?(@current_user)
+    @current_user = User.find_by(id: session[:user_id])
+  end
+
+  def require_login
+    return if current_user&.active?
+    if session[:user_id].nil?
+      redirect_to login_path
+    else
+      message = current_user.nil? ? "Account no longer exists." : "Account is blocked."
+      reset_session
+      redirect_to login_path, alert: message
+    end
+  end
 end
