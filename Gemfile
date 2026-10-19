@@ -68,3 +68,5 @@ group :test do
 end
 
 gem "bcrypt", "~> 3.1"
+
+gem "ransack", "~> 6.0"

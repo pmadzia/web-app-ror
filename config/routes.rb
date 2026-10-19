@@ -12,10 +12,13 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   root "admin#index"
-  get     "admin",      to: "admin#index", as: :admin
-  get     "login",      to: "sessions#new"
-  post    "login",      to: "sessions#create"
-  delete  "logout",     to: "sessions#destroy"
-  get     "register",   to: "registrations#new"
-  post    "register",   to: "registrations#create"
+  get     "admin",         to: "admin#index",           as: :admin
+  post    "admin/block",   to: "admin#block",           as: :block_admin
+  post    "admin/unblock", to: "admin#unblock",         as: :unblock_admin
+  post    "admin/delete",  to: "admin#delete_selected", as: :delete_admin
+  get     "login",         to: "sessions#new"
+  post    "login",         to: "sessions#create"
+  delete  "logout",        to: "sessions#destroy"
+  get     "register",      to: "registrations#new"
+  post    "register",      to: "registrations#create"
 end

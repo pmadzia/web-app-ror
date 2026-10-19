@@ -1,1 +1,45 @@
 <h1 class="h4">Users</h1>
+<div data-controller="selection" data-action="turbo:frame-load->selection#update">
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2"
+       role="toolbar" aria-label="User actions">
+    <%= form_with url: block_admin_path, method: :post, id: "bulk_form", class: "d-flex gap-2" do %>
+      <span data-bs-toggle="tooltip" data-bs-title="Block selected users">
+        <%= button_tag type: "submit", formaction: block_admin_path,
+              class: "btn btn-outline-primary", disabled: true,
+              data: { selection_target: "action" } do %>
+          <i class="bi bi-lock-fill"></i> Block
+        <% end %>
+      </span>
+      <span data-bs-toggle="tooltip" data-bs-title="Unblock selected users">
+        <%= button_tag type: "submit", formaction: unblock_admin_path,
+              class: "btn btn-outline-primary", disabled: true,
+              "aria-label": "Unblock selected users",
+              data: { selection_target: "action" } do %>
+          <i class="bi bi-unlock-fill"></i>
+        <% end %>
+      </span>
+      <span data-bs-toggle="tooltip" data-bs-title="Delete selected users">
+        <%= button_tag type: "submit", formaction: delete_admin_path,
+              class: "btn btn-outline-danger", disabled: true,
+              "aria-label": "Delete selected users",
+              data: { selection_target: "action" } do %>
+          <i class="bi bi-trash-fill"></i>
+        <% end %>
+      </span>
+    <% end %>
+    <%= form_with url: admin_path, method: :get, id: "filter_form",
+          class: "flex-grow-1 flex-sm-grow-0",
+          data: { controller: "filter", turbo_frame: "users_list", turbo_action: "advance" } do %>
+      <% if params.dig(:q, :s).present? %>
+        <%= hidden_field_tag "q[s]", params.dig(:q, :s), id: nil %>
+      <% end %>
+      <%= search_field_tag "q[full_name_or_email_or_job_position_i_cont]",
+            params.dig(:q, :full_name_or_email_or_job_position_i_cont),
+            id: "filter", class: "form-control", placeholder: "Filter", autocomplete: "off",
+            "aria-label": "Filter users by name, e-mail or job position",
+            style: "min-width: 14rem",
+            data: { action: "input->filter#submit" } %>
+    <% end %>
+  </div>
+  <%= render "admin/users_list", q: @q, users: @users %>
+</div>

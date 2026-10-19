@@ -14,7 +14,11 @@
             <%= f.label :email, "E-mail", class: "form-label" %>
             <%= f.email_field :email, class: field_class(@user, :email),
                               required: true, autocomplete: "email" %>
-            <div class="invalid-feedback"><%= @user.errors.full_messages_for(:email).to_sentence %></div>
+            <% if @user.errors[:email].any? %>
+              <div class="invalid-feedback d-block">
+                <%= @user.errors.full_messages_for(:email).to_sentence %>
+              </div>
+            <% end %>
           </div>
           <div class="mb-3">
             <%= f.label :job_position, "Job position (optional)", class: "form-label" %>

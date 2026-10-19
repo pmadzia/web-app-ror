@@ -10,12 +10,14 @@ class SessionsController < ApplicationController
 
     if user.nil? || !user.authenticate(params[:password].to_s)
       flash.now[:alert] = "Invalid e-mail or password"
-      render :new, status: :unprocessable_entity
+      return render :new, status: :unprocessable_entity
     end
+
     if user.blocked?
       flash.now[:alert] = "Account is blocked."
-      render :new, status: :unprocessable_entity
+      return render :new, status: :unprocessable_entity
     end
+
     reset_session
     session[:user_id] = user.id
     user.update_column(:last_seen, Time.current)
