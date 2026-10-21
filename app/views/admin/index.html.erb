@@ -43,3 +43,41 @@
   </div>
   <%= render "admin/users_list", q: @q, users: @users %>
 </div>
+<div data-controller="chat"
+     class="position-fixed bottom-0 end-0 m-3"
+     style="z-index: 1050">
+  <div class="card shadow mb-2 d-none" data-chat-target="panel"
+       style="width: min(24rem, calc(100vw - 2rem))">
+    <div class="card-header d-flex align-items-center gap-2 fw-semibold">
+      <i class="bi bi-chat-dots"></i>
+      <span class="flex-grow-1">Chatbot</span>
+      <button type="button" class="btn-close" aria-label="Close chat"
+              data-action="chat#toggle"></button>
+    </div>
+    <div class="card-body bg-body-tertiary">
+      <div id="chat_messages" class="overflow-auto mb-3 d-flex flex-column"
+           style="height: 16rem" aria-live="polite"></div>
+      <%= form_with url: chat_path, method: :post,
+            data: { action: "submit->chat#attachSelection turbo:submit-end->chat#reset" } do |f| %>
+        <div data-chat-target="ids"></div>
+        <div class="input-group">
+          <%= f.text_field :message, class: "form-control", autocomplete: "off",
+                placeholder: "Ask a question", "aria-label": "Your question",
+                required: true, data: { chat_target: "input" } %>
+          <%= f.button type: "submit", class: "btn btn-primary", "aria-label": "Send" do %>
+            <i class="bi bi-send"></i>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="text-end">
+    <button type="button" class="btn btn-primary btn-lg rounded-circle shadow"
+            aria-label="Open chat" aria-expanded="false"
+            data-chat-target="button" data-action="chat#toggle"
+            data-bs-toggle="tooltip" data-bs-title="Ask about users"
+            data-bs-placement="left">
+      <i class="bi bi-chat-dots-fill"></i>
+    </button>
+  </div>
+</div>

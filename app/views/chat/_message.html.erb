@@ -1,0 +1,9 @@
+<% own = role == "user" %>
+<div class="<%= own ? 'align-self-end' : 'align-self-start' %> mb-2 mw-100" style="max-width: 85%">
+  <div class="small text-secondary mb-1 <%= own ? 'text-end' : '' %>">
+    <%= own ? "You" : "Assistant" %>
+  </div>
+  <div class="<%= own ? 'text-bg-primary' : 'bg-white border' %> rounded px-3 py-2">
+    <%= text %>
+  </div>
+</div>

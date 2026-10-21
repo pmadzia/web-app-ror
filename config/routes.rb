@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   post    "admin/block",   to: "admin#block",           as: :block_admin
   post    "admin/unblock", to: "admin#unblock",         as: :unblock_admin
   post    "admin/delete",  to: "admin#delete_selected", as: :delete_admin
+  post    "chat",          to: "chat#create",           as: :chat
   get     "login",         to: "sessions#new"
   post    "login",         to: "sessions#create"
   delete  "logout",        to: "sessions#destroy"

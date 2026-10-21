@@ -72,3 +72,7 @@ gem "bcrypt", "~> 3.1"
 gem "ransack", "~> 6.0"
 
 gem "activerecord-import", "~> 3.0"
+
+gem "ruby_llm", "~> 2.1"
+
+gem "dotenv-rails", "~> 3.2", groups: [:development, :test]
